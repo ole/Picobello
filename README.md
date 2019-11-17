@@ -1,3 +1,3 @@
 # PIC16
 
-A description of this package.
+The Microchip PIC16 instruction set.
