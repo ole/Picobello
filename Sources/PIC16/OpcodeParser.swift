@@ -1,15 +1,8 @@
-extension Opcode {
-  init(pattern: String) throws {
-    let parser = OpcodeParser(pattern: pattern)
-    self = try parser.parse()
-  }
-}
-
 /// Parses a string of the form "0001 11df ffff" into an Opcode.
 struct OpcodeParser {
   var pattern: String
 
-  func parse() throws -> Opcode {
+  func parse() throws -> Opcode.BitPattern {
     var opcode: UInt16 = 0
     var mask: UInt16 = 0
     for c in pattern.utf8 {
@@ -29,7 +22,7 @@ struct OpcodeParser {
         throw Opcode.Error(message: "Unexpected character: '\(String(Unicode.Scalar(c)))'")
       }
     }
-    return Opcode(opcode: opcode, mask: mask)
+    return Opcode.BitPattern(opcode: opcode, mask: mask)
   }
 }
 
