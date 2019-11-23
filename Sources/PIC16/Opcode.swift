@@ -1,18 +1,4 @@
 public struct Opcode: Equatable {
-  public struct BitPattern: Equatable {
-    /// The 12-bit opcode of the instruction.
-    /// Lower bits that are used for operands should be set to 0.
-    public var opcode: UInt16
-    /// A bit mask that separates opcode from operands.
-    /// The bits that indicate the opcode are 1, the bits that indicate the operands are 0.
-    public var mask: UInt16
-
-    /// Returns true if the given 12-bit bit pattern matches this opcode.
-    public func matches(bitPattern other: UInt16) -> Bool {
-      other & mask == opcode & mask
-    }
-  }
-
   /// The mnemonic of the instruction.
   public var name: String
   /// The bit pattern identifying the opcode and its operands.
@@ -21,6 +7,34 @@ public struct Opcode: Equatable {
   public var cycles: Int = 1
   /// The bits of the STATUS register this instruction potentially changes.
   public var statusBits: StatusBit = []
+}
+
+extension Opcode {
+  public struct BitPattern: Equatable {
+    /// The 12-bit opcode of the instruction.
+    /// Lower bits that are used for operands should be set to 0.
+    public var opcode: UInt16
+    /// A bit mask that separates opcode from operands.
+    /// The bits that indicate the opcode are 1, the bits that indicate the operands are 0.
+    public var mask: UInt16
+    /// The types of operands this instruction takes.
+    public var operands: Opcode.OperandFormat
+
+    /// Returns true if the given 12-bit bit pattern matches this opcode.
+    public func matches(bitPattern other: UInt16) -> Bool {
+      other & mask == opcode & mask
+    }
+  }
+
+  public enum OperandFormat {
+    case noOperands
+    case file
+    case fileAndDestination
+    case fileAndBitNumber
+    case literal
+    case goto
+    case tris
+  }
 }
 
 extension Opcode {

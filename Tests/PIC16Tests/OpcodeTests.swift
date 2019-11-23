@@ -16,6 +16,8 @@ final class OpcodeTests: XCTestCase {
   }
 
   func testOpcodeAllCasesIsComplete() {
+    // This test is also useful because it instantiates all opcode constants
+    // and implicitly tests that their pattern strings can be parsed.
     XCTAssertEqual(Opcode.allCases.count, 33)
     XCTAssertTrue(Opcode.allCases.contains(.addwf))
     XCTAssertTrue(Opcode.allCases.contains(.andwf))
