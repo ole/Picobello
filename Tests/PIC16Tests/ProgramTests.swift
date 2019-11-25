@@ -13,14 +13,14 @@ final class ProgramTests: XCTestCase {
     let program = try Program(file: hexFile)
     XCTAssertEqual(program.instructions.count, 8)
     XCTAssertEqual(program.instructions, [
-      .movwf,
-      .movlw,
+      .movwf(.OSCCAL),
+      .movlw(0b0001_1100),
       .option,
-      .movlw,
-      .tris,
-      .btfsc,
-      .goto,
-      .btfsc,
+      .movlw(0b1000),
+      .tris(.GPIO),
+      .btfsc(.STATUS, bit: .NOT_PD),
+      .goto(0x59),
+      .btfsc(.STATUS, bit: .GPWUF),
     ])
   }
 }

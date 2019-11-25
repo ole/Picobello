@@ -1,7 +1,7 @@
 import HEXFileFormat
 
 public struct Program {
-  public var instructions: [Opcode]
+  public var instructions: [Instruction]
 
   public init(file: HEXFile) throws {
     let bytes: [UInt8] = file.records.flatMap { record -> [UInt8] in
@@ -18,12 +18,7 @@ public struct Program {
       let word: UInt16 = highByte << 8 + lowByte
       bitPatterns.append(word)
     }
-    self.instructions = try bitPatterns.map { bitPattern in
-      guard let opcode = Opcode.matching(bitPattern: bitPattern) else {
-        throw Opcode.Error(message: "Unknown instruction: \(bitPattern.binary(padTo: 12))")
-      }
-      return opcode
-    }
+    self.instructions = try bitPatterns.map(Instruction.init(bitPattern:))
   }
 }
 
