@@ -11,16 +11,16 @@ final class ProgramTests: XCTestCase {
       """
     let hexFile = try HEXFile(text: hex)
     let program = try Program(file: hexFile)
-    XCTAssertEqual(program.instructions.count, 8)
-    XCTAssertEqual(program.instructions, [
-      .movwf(.OSCCAL),
-      .movlw(0b0001_1100),
-      .option,
-      .movlw(0b1000),
-      .tris(.GPIO),
-      .btfsc(.STATUS, bit: .NOT_PD),
-      .goto(0x59),
-      .btfsc(.STATUS, bit: .GPWUF),
+    XCTAssertEqual(program.records.count, 8)
+    XCTAssertEqual(program.records, [
+      .statement(Statement(address: 0x00, instruction: .movwf(.OSCCAL))),
+      .statement(Statement(address: 0x01, instruction: .movlw(0b0001_1100))),
+      .statement(Statement(address: 0x02, instruction: .option)),
+      .statement(Statement(address: 0x03, instruction: .movlw(0b1000))),
+      .statement(Statement(address: 0x04, instruction: .tris(.GPIO))),
+      .statement(Statement(address: 0x05, instruction: .btfsc(.STATUS, bit: .NOT_PD))),
+      .statement(Statement(address: 0x06, instruction: .goto(0x59))),
+      .statement(Statement(address: 0x07, instruction: .btfsc(.STATUS, bit: .GPWUF))),
     ])
   }
 }
