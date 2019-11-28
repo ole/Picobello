@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "HexHexHex",
+        "repositoryURL": "https://github.com/ole/HexHexHex.git",
+        "state": {
+          "branch": null,
+          "revision": "c01aa6a6f89e10f312053b7ba5cdeae90f8123bc",
+          "version": "0.1.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

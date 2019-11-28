@@ -1,3 +1,5 @@
+import HexHexHex
+
 public struct Instruction: Equatable {
   public var opcode: Opcode
   public var operands: Operands

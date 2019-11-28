@@ -1,3 +1,5 @@
+import HexHexHex
+
 /// A single statement in a `Program`.
 public struct Statement: Equatable {
   public var address: UInt8

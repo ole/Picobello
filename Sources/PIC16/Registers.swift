@@ -1,3 +1,5 @@
+import HexHexHex
+
 /// Named registers in the register file
 public struct RegisterFile: RawRepresentable, Equatable {
   public var rawValue: UInt8

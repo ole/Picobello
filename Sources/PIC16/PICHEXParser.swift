@@ -1,8 +1,8 @@
 import Foundation
-import HEXFileFormat
+import HexHexHex
 
 struct PICHEXParser {
-  var hexRecords: [HEXFileFormat.Record]
+  var hexRecords: [HexHexHex.Record]
 
   func parse() throws -> [Program.Record] {
     var programRecords: [Program.Record] = []
@@ -27,7 +27,7 @@ struct PICHEXParser {
         }
 
       case .startSegmentAddress,
-           .extentedSegmentAddress,
+           .extendedSegmentAddress,
            .startLinearAddress:
         throw Error(line: line, message: "Unexpected record type \(hexRecord.kind)")
       }
