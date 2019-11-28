@@ -1,4 +1,4 @@
-import PIC16
+import Picobello
 import XCTest
 
 final class RegisterTests: XCTestCase {

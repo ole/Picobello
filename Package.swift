@@ -4,11 +4,11 @@
 import PackageDescription
 
 let package = Package(
-  name: "PIC16",
+  name: "Picobello",
   products: [
     // Products define the executables and libraries produced by a package, and make them visible to other packages.
-    .executable(name: "PIC16ASM", targets: ["PIC16ASM"]),
-    .library(name: "PIC16", targets: ["PIC16"]),
+    .executable(name: "picob", targets: ["PicobelloCLI"]),
+    .library(name: "Picobello", targets: ["Picobello"]),
   ],
   dependencies: [
     // Dependencies declare other packages that this package depends on.
@@ -19,13 +19,13 @@ let package = Package(
     // Targets are the basic building blocks of a package. A target can define a module or a test suite.
     // Targets can depend on other targets in this package, and on products in packages which this package depends on.
     .target(
-      name: "PIC16ASM",
-      dependencies: ["PIC16", "HexHexHex"]),
+      name: "PicobelloCLI",
+      dependencies: ["Picobello", "HexHexHex"]),
     .target(
-      name: "PIC16",
+      name: "Picobello",
       dependencies: ["HexHexHex"]),
     .testTarget(
-      name: "PIC16Tests",
-      dependencies: ["PIC16", "HexHexHex"]),
+      name: "PicobelloTests",
+      dependencies: ["Picobello", "HexHexHex"]),
   ]
 )

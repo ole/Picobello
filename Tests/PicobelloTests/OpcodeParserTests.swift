@@ -1,4 +1,4 @@
-@testable import PIC16
+@testable import Picobello
 import XCTest
 
 final class OpcodeParserTests: XCTestCase {

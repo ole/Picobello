@@ -1,3 +1,3 @@
-# PIC16
+# Picobello
 
-The Microchip PIC16 instruction set.
+The Microchip PIC instruction set.

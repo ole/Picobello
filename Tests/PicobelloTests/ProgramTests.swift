@@ -1,5 +1,5 @@
 import HexHexHex
-import PIC16
+import Picobello
 import XCTest
 
 final class ProgramTests: XCTestCase {
