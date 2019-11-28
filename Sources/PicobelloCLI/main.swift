@@ -1,25 +1,66 @@
+import Basic
+import Foundation
 import HexHexHex
 import Picobello
+import SPMUtility
 
-let hex = """
-  :020000040000FA
-  :1000000025001C0C0200080C06006306590AE306D2
-  :100010000A0A0E0A3006590A3005110A3006200A6B
-  :10002000590A050C3400000C3500000C3600000C99
-  :100030003700200A66000A0C3309070C260003006B
-  :10004000060C26000A0C33090400040C26000A0CD6
-  :1000500033090400000C26000A0C33090400070CC5
-  :1000600026000400030033000D0C32007100F10281
-  :10007000370AF202370AF302340A0008140C24008B
-  :10008000010CA0000306460AA402410A4B09FF0E18
-  :100090004307570A0300140C2400040C3C00010C15
-  :1000A000200243070008A402FC02500A01083004A1
-  :0C00B000590A000C3000070C2600030069
-  :0400BC000008000830
-  :0201FE00FF0FF1
-  :021FFE00EF0FE3
-  :00000001FF
-  """
-let hexFile = try HEXFile(text: hex)
-let program = try Program(file: hexFile)
-debugPrint(program)
+let executableName = CommandLine.arguments.first!
+
+// MARK: - Configure command line options
+let main = ArgumentParser(usage: "<command>", overview: "PIC instruction set assembler")
+let versionFlag = main.add(
+  option: "--version",
+  shortName: "-v",
+  kind: Bool.self,
+  usage: "Print version information and exit")
+
+let disassembleCommand = "disassemble"
+let disassemble = main.add(
+  subparser: disassembleCommand,
+  usage: "[flag] <FILE> | --sample",
+  overview: "Disassemble a .hex file")
+let disassembleInputFile = disassemble.add(
+  positional: "FILE",
+  kind: PathArgument.self,
+  optional: true,
+  usage: "The .hex file to disassemble")
+let disassembleSampleFile = disassemble.add(
+  option: "--sample",
+  kind: Bool.self,
+  usage: "Disassemble a sample .hex file; useful for testing if you have no .hex file at hand")
+
+// MARK: - Main program
+do {
+  let arguments = try main.parse(Array(CommandLine.arguments.dropFirst()))
+
+  let shouldPrintVersion = arguments.get(versionFlag) ?? false
+  guard !shouldPrintVersion else {
+    stderrStream <<< executableName <<< " version " <<< Picobello.version <<< "\n"
+    exit(.success)
+  }
+
+  switch arguments.subparser(main) {
+  case disassembleCommand?:
+    let hexFile: HEXFile
+    let shouldUseSampleFile = arguments.get(disassembleSampleFile) ?? false
+    if shouldUseSampleFile {
+      hexFile = try HEXFile(text: sampleHEXFileContents)
+    } else {
+      guard let inputFile = arguments.get(disassembleInputFile) else {
+        disassemble.printUsage(on: stderrStream)
+        exit(.success)
+      }
+      let hexData = try Data(contentsOf: inputFile.path.asURL)
+      hexFile = try HEXFile(bytes: hexData)
+    }
+    let program = try Program(file: hexFile)
+    debugPrint(program)
+
+  default:
+    // No command passed on CLI. Print help.
+    main.printUsage(on: stderrStream)
+  }
+} catch {
+  stderrStream <<< error.localizedDescription <<< "\n"
+  exit(.genericFailure)
+}
