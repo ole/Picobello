@@ -1,10 +1,10 @@
 # Picobello
 
-An assembler for the Microchip PIC instruction set, written in Swift.
+A disassembler and (eventually, hopefully) assembler for the Microchip PIC instruction set, written in Swift.
 
 ## Status
 
-Very experimental and untested.
+Very experimental, incomplete, and untested. Currently only the disassembler is functional. And I only support the PIC10F20x instruction set for now.
 
 ![](https://github.com/ole/Picobello/workflows/macOS/badge.svg) ![](https://github.com/ole/Picobello/workflows/Linux/badge.svg)
 
@@ -12,7 +12,7 @@ Very experimental and untested.
 
 The executable is called "picob".
 
-## Disassemble a .hex File
+### Disassemble a .hex File
 
 ```sh
 $ swift run picob disassemble <path-to-hex.hex>
